@@ -20,10 +20,10 @@ In this work as data scientists, in addition to doing modeling and machine learn
 
 The project executed over several milestones.There are four major milestones:
 
-1. [Milestone 1: Define the questions and Exploratory Data Analysis]
-2. [Milestone 2: NLP and external data overlay]
-3. [Milestone 3: Machine Learning]
-4. [Milestone 4: Final delivery]
+* Milestone 1: Define the questions and Exploratory Data Analysis
+* Milestone 2: NLP and external data overlay
+* Milestone 3: Machine Learning
+* Milestone 4: Final delivery
 
 Here's the [website](https://wenxuantang.github.io/Reddit-User-Behavior/) I built to host the project.
 
