@@ -7,7 +7,7 @@ I worked with the [Reddit Archive data](https://files.pushshift.io/reddit/) from
 * [Submissions sample JSON](https://files.pushshift.io/reddit/submissions/sample.json)
 * [Comments sample JSON](https://files.pushshift.io/reddit/comments/sample_data.json)
 
-I used Spark on Azure Databricks and Python to analyze, transform, and process your data and create one or more analytical datasets.
+I used Spark on Azure Databricks and Python to analyze, transform, and process data and created analytical datasets.
 
 In this work as data scientists, in addition to doing modeling and machine learning work, I also provided the following as part of a project:
 
