@@ -16,7 +16,7 @@ In this work as data scientists, in addition to doing modeling and machine learn
 * **Recommendations:** what can be done to address the question/problem at hand?
 
 
-## Milestones
+## Deliverables
 
 The project executed over several milestones.There are four major milestones:
 
