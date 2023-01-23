@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="ANLY502 Group 21">
+
+<title>Milestone 1: EDA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="eda_new_files/libs/clipboard/clipboard.min.js"></script>
+<script src="eda_new_files/libs/quarto-html/quarto.js"></script>
+<script src="eda_new_files/libs/quarto-html/popper.min.js"></script>
+<script src="eda_new_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="eda_new_files/libs/quarto-html/anchor.min.js"></script>
+<link href="eda_new_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="eda_new_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="eda_new_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="eda_new_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="eda_new_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="eda_new_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="eda_new_files/libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#research-avenues" id="toc-research-avenues" class="nav-link active" data-scroll-target="#research-avenues">Research Avenues</a>
+  <ul class="collapse">
+  <li><a href="#avenue-1" id="toc-avenue-1" class="nav-link" data-scroll-target="#avenue-1">Avenue 1</a></li>
+  <li><a href="#avenue-2" id="toc-avenue-2" class="nav-link" data-scroll-target="#avenue-2">Avenue 2</a></li>
+  <li><a href="#avenue-3" id="toc-avenue-3" class="nav-link" data-scroll-target="#avenue-3">Avenue 3</a></li>
+  <li><a href="#avenue-4" id="toc-avenue-4" class="nav-link" data-scroll-target="#avenue-4">Avenue 4</a></li>
+  <li><a href="#avenue-5" id="toc-avenue-5" class="nav-link" data-scroll-target="#avenue-5">Avenue 5</a></li>
+  <li><a href="#avenue-6" id="toc-avenue-6" class="nav-link" data-scroll-target="#avenue-6">Avenue 6</a></li>
+  <li><a href="#avenue-7" id="toc-avenue-7" class="nav-link" data-scroll-target="#avenue-7">Avenue 7</a></li>
+  <li><a href="#avenue-8" id="toc-avenue-8" class="nav-link" data-scroll-target="#avenue-8">Avenue 8</a></li>
+  <li><a href="#avenue-9" id="toc-avenue-9" class="nav-link" data-scroll-target="#avenue-9">Avenue 9</a></li>
+  <li><a href="#avenue-10" id="toc-avenue-10" class="nav-link" data-scroll-target="#avenue-10">Avenue 10</a></li>
+  </ul></li>
+  <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda">EDA</a>
+  <ul class="collapse">
+  <li><a href="#basic-info" id="toc-basic-info" class="nav-link" data-scroll-target="#basic-info">Basic Info</a></li>
+  <li><a href="#data-quality-checks" id="toc-data-quality-checks" class="nav-link" data-scroll-target="#data-quality-checks">Data Quality Checks</a></li>
+  <li><a href="#create-new-variables" id="toc-create-new-variables" class="nav-link" data-scroll-target="#create-new-variables">Create New Variables</a></li>
+  <li><a href="#explore-the-top-20-most-popular-by-submission-and-comment-count" id="toc-explore-the-top-20-most-popular-by-submission-and-comment-count" class="nav-link" data-scroll-target="#explore-the-top-20-most-popular-by-submission-and-comment-count">Explore the top 20 most popular by submission and comment count</a></li>
+  <li><a href="#explore-the-top-20-subreddits-by-subbmission-count-divided-by-age" id="toc-explore-the-top-20-subreddits-by-subbmission-count-divided-by-age" class="nav-link" data-scroll-target="#explore-the-top-20-subreddits-by-subbmission-count-divided-by-age">Explore the top 20 subreddits by subbmission count divided by age</a></li>
+  <li><a href="#explore-submissions-and-comments-count-by-different-time-scale" id="toc-explore-submissions-and-comments-count-by-different-time-scale" class="nav-link" data-scroll-target="#explore-submissions-and-comments-count-by-different-time-scale">Explore submissions and comments count by different time scale</a></li>
+  <li><a href="#explore-wallstreetbets-subredit-count-and-stock-market-index" id="toc-explore-wallstreetbets-subredit-count-and-stock-market-index" class="nav-link" data-scroll-target="#explore-wallstreetbets-subredit-count-and-stock-market-index">Explore wallstreetbets subredit count and stock market index</a></li>
+  <li><a href="#explore-the-change-of-buzzwords-about-covid-19-from-2021-to-2022" id="toc-explore-the-change-of-buzzwords-about-covid-19-from-2021-to-2022" class="nav-link" data-scroll-target="#explore-the-change-of-buzzwords-about-covid-19-from-2021-to-2022">Explore the change of buzzwords about covid-19 from 2021 to 2022</a></li>
+  <li><a href="#explore-the-10-most-controversial-subreddits-having-more-than-10000-comments" id="toc-explore-the-10-most-controversial-subreddits-having-more-than-10000-comments" class="nav-link" data-scroll-target="#explore-the-10-most-controversial-subreddits-having-more-than-10000-comments">Explore the 10 most controversial subreddits having more than 10000 comments</a></li>
+  <li><a href="#explore-the-relationship-between-subreddit-size-and-average-user-activities" id="toc-explore-the-relationship-between-subreddit-size-and-average-user-activities" class="nav-link" data-scroll-target="#explore-the-relationship-between-subreddit-size-and-average-user-activities">Explore the relationship between subreddit size and average user activities</a></li>
+  <li><a href="#explore-the-top-10-video-posting-subreddits-for-teenagers-and-adults" id="toc-explore-the-top-10-video-posting-subreddits-for-teenagers-and-adults" class="nav-link" data-scroll-target="#explore-the-top-10-video-posting-subreddits-for-teenagers-and-adults">Explore the top 10 video-posting subreddits for teenagers and adults</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Milestone 1: EDA</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>ANLY502 Group 21 </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><a href="./index.html">Go back to main page.</a></p>
+<p>In this page, we set our 10 research avenues and conduct EDA regarding the topic we want to explore.</p>
+<section id="research-avenues" class="level1">
+<h1>Research Avenues</h1>
+<section id="avenue-1" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-1">Avenue 1</h2>
+<p><strong>Business goal</strong>: As for answering questions, would a controversial post receive more attention and support? Explore the posts for the subreddit called “AskReddit” to see if posts with controversiality are more likely to be gilded.<br> <strong>Technical proposal</strong>: Check the distribution of controversial posts in the subreddit in comparison to other popular subreddits; Use NLP to analyze the sentiment of posts in the subreddit and compare the distribution with that of controversiality; finally, build a machine learning model to predict whether a post is gilded or not, thus exploring the critical factors(if any).<br></p>
+</section>
+<section id="avenue-2" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-2">Avenue 2</h2>
+<p><strong>Business goal</strong>: Determine if Reddit users tend to be less active in average when they are browsing a larger subreddit, since sense of self-presence is closely related to activity and is potentially weaker in bigger forums due to presence of too many people.<br> <strong>Technical proposal</strong>: Group the posts by subreddits to get the count of posts for each subreddit and by author in each of the subreddits to get the total number of active users in each subreddit. Use ML techniques to formulate a model between total posts and average number of posts for each user, thus determining whether a bigger subreddit would actually suppress an individual’s willingness to make a post.<br></p>
+</section>
+<section id="avenue-3" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-3">Avenue 3</h2>
+<p><strong>Business goal</strong>: Explore the pattern of most active users. Are they posting more controversial or negative content in order to grab attention from others?<br> <strong>Technical proposal</strong>: Group the posts by their authors to get the 1000 most active users in reddit, then check the distribution of controversiality compared to the overall level and to determine if they are producing more controversial content. Then, use NLP on their posts to determine if they are producing negative content to grab the eyes.<br></p>
+</section>
+<section id="avenue-4" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-4">Avenue 4</h2>
+<p><strong>Business goal</strong>: What kind of accounts does Reddit tend to cancel? Negative/controversial content could naturally lead to unhealthy atmosphere, so is it also a critical factor that contributes to the deletion of a reddit account?<br> <strong>Technical proposal</strong>: Filter the posts whose author name is “[deleted]” to get the posts whose author’s account has been deleted, then check the ratio of posts with controversiality to see if controversial posts are potentially contributing to the deletion of accounts. Next, use NLP to determine the overall sentiment of those posts to see if deleted accounts generally post more negative content. Finally, build a ML model to see if we could predict the posts to have a deleted user or not, without actually analyzing its content.<br></p>
+</section>
+<section id="avenue-5" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-5">Avenue 5</h2>
+<p><strong>Business goal</strong>: Could Reddit posts in financial fields reflect the actual market state? Explore the potential correlation between US stock price and Reddit mood in the subreddit “wallstreetbets”, a business and financial topic.<br> <strong>Technical proposal</strong>: Figure out the timescale of the submission dataset, fetch the external data of US stock price trends in that period, and merge them into the dataframe. Then, use NLP to analyze the sentiment behind posts in that subreddit and aggregate in an appropriate scale to fit with the time unit of stock prices. Finally, by building an ML model, the potential correlation between Reddit mood and the stock market could be revealed a bit, if any.<br></p>
+</section>
+<section id="avenue-6" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-6">Avenue 6</h2>
+<p><strong>Business goal</strong>: If the Reddit company decides to bring more attention to subreddit “AutoNewspaper”, then explore which type of news is more welcomed by the reddit user.<br> <strong>Technical proposal</strong>: The favorable of the news can be reflected by the number of likes and dislikes, also by the amount of gild received. In this project, the scores column in the submission dataset computes the difference between the number of likes and the number of dislikes. Thus, the News topic with a higher score and gild level is considered to be more attractive for users. So NLP could be used to categorize news into topics and to compare the scores for each News topic posted in the subreddit “AutoNewspaper”. Then find which news topics have the highest scores in the dataset. Also, present the score with the news topics along with their average gild level.</p>
+</section>
+<section id="avenue-7" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-7">Avenue 7</h2>
+<p><strong>Business goal</strong>: If the Reddit company is considering holding an interactive event, then when and how should they host that event so the reddit user participation rate could be at most?<br> <strong>Technical proposal</strong>: In this project, the time series data record the number of participants active on reddit in both the week and day format. Then, aggregate the data into the 7 days in a week to see which day in a week would gather the most attention from the users. Also, use NLP to make a comparison between stickied and non-stickled posts regarding their average score and sentiment to see if the interactive event should be stickied or not to receive more likes from the users.<br></p>
+</section>
+<section id="avenue-8" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-8">Avenue 8</h2>
+<p><strong>Business goal</strong>: If the Reddit company decides to include more news in the subreddit “AutoNewspaper”, then which news source should they be focused on based on the steadiness of making new posts, for various types of news?<br> <strong>Technical proposal</strong>: Use NLP to identify the news source and type for each News posted in the subreddit “AutoNewspaper”. Then, count which news sources are mentioned the most in the dataset for each of the formulated types of news. Addtionally, the 3 most mentioned type of news for each of the news sources could be presented to help the Reddit company to decide for future cooperations.<br></p>
+</section>
+<section id="avenue-9" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-9">Avenue 9</h2>
+<p><strong>Business goal</strong>: Which of the 2 groups, adults and teenagers, consists of a more important part in the Reddit society?<br> <strong>Technical proposal</strong>: The age of post authors could be identified by the variable “over_18”, thus a groupby operation could be used to separate posts made by adults and by teenagers. Then, comparisons on various statistics, such as total number of posts, most popular topics, average score and gild level, etc. The techniques of Natural Language Processing could be further applied to see if teenagers in the era of covid have been expressing more struggles than the adults. Through out of these comparisons, a general understanding of teenagers’ role in the Reddit society could be revealed a bit.<br></p>
+</section>
+<section id="avenue-10" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-10">Avenue 10</h2>
+<p><strong>Business goal</strong>: Video posts have been thriving as a new type of reddit posts. What are their target users and how well do they perform in the aspect of score and awards?<br> <strong>Technical proposal</strong>: Filter out the video posts from the dataset by the variable “is_video” present in the submission dataset, then make comparisons between distributions of adult user ratio, score and gild level for video posts and regular posts. This could give us an idea on the target user of video posts and their overall performance comparing to other posts. Additionally, NLP may be used to reveal commentors’ tastes on the video and let us see the subreddits where video posts are welcomed/hated the most.<br></p>
+</section>
+</section>
+<section id="eda" class="level1">
+<h1>EDA</h1>
+<section id="basic-info" class="level2">
+<h2 class="anchored" data-anchor-id="basic-info">Basic Info</h2>
+<p>We have two dataframes including a submissions and comments data from Reddit starting from January, 2021 to August, 2022. <br> There are 643,255,528 rows and 68 columns in submissions dataframe. And 4,473,556,762 rows and 21 columns in comments dataframe.<br> <a href="./eda.html">More detail with the original data please check here and roll down to Basic Info section.</a></p>
+</section>
+<section id="data-quality-checks" class="level2">
+<h2 class="anchored" data-anchor-id="data-quality-checks">Data Quality Checks</h2>
+<p>We checkes the missing value, lengh of comments and remove rows which is unnecessary for our analysis. <br> <a href="./eda.html">More detail with the how we did please check here and roll down to Data Quality Checks section.</a></p>
+</section>
+<section id="create-new-variables" class="level2">
+<h2 class="anchored" data-anchor-id="create-new-variables">Create New Variables</h2>
+<ul>
+<li>date variable: generate the date format like ‘2011-0-01’</li>
+<li>month variable: generate the month of the date</li>
+<li>hour variable: generate the hour of when comment or submission is publishes.</li>
+<li>day of week variable: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday(1 for Sunday, 2 for Monday,…,7 for Saturday)</li>
+<li>account_deleted variable: Where the author account has been deleted.<br></li>
+</ul>
+<p><a href="./eda.html">More detail with the how we did please check here and roll down to Create New Variables section.</a></p>
+</section>
+<section id="explore-the-top-20-most-popular-by-submission-and-comment-count" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-top-20-most-popular-by-submission-and-comment-count">Explore the top 20 most popular by submission and comment count</h2>
+<p><img src="./data_eda/plots/top_20_subreddits_count.png" id="top_20_subreddits" class="img-fluid"> This figure displays the top 20 most popular subreddits for submission and comment. From the figure, we could observe that:<br></p>
+<ol type="1">
+<li>There exists a big difference in the topics favored by submission and comment. People tend to make a post for NSFW contents in many different 18+ subreddits while response a post for SFW contents.<br></li>
+<li>Topics about News, Sports, investment market are top of the comment count.</li>
+</ol>
+</section>
+<section id="explore-the-top-20-subreddits-by-subbmission-count-divided-by-age" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-top-20-subreddits-by-subbmission-count-divided-by-age">Explore the top 20 subreddits by subbmission count divided by age</h2>
+<p><img src="./data_eda/plots/top_20_subreddits_18ornot.png" id="top_20_subreddits_18" class="img-fluid"> This figure displays the top 20 most popular subreddits for teenagers and for adults. From the figure, we could observe that:<br></p>
+<ol type="1">
+<li>There exists a big difference in the topics favored by teenager and adult authors. While teenagers often use Reddit to ask questions and exchange experiences&amp;ideas among various topics, the adult authors seem to focus on posting NSFW contents in many different 18+ subreddits.<br></li>
+<li>The question-asking subreddit is mainly used by the teenagers, thus the professional level of the channel seems a bit suspicious. Maybe there are other forums for more professional questions to be asked and to be solved.<br></li>
+</ol>
+</section>
+<section id="explore-submissions-and-comments-count-by-different-time-scale" class="level2">
+<h2 class="anchored" data-anchor-id="explore-submissions-and-comments-count-by-different-time-scale">Explore submissions and comments count by different time scale</h2>
+<p><img src="./data_eda/plots/submissions%20and%20comments%20count%20by%20different%20time%20scale.png" id="top_20_subreddits" class="img-fluid"> This plot shows how reddit submission and comment count change from 2021-01-01 to 2022-8-31 on different time scale.</p>
+<ol type="1">
+<li>The changes of submission count and comment are not totally match each other.For example, from June to September, submisison count gradually decreases, but comment count gradually increase. Meanwhile, May is the most active month within a year for reddit.</li>
+<li>Within a day, the fluctuations of submission and comment count look like very similar, gradually decrease from 18:00 to the next day 08:00, and gradually increase from 08:00 to 17:00. Moreover, daily submission and comment count show a certain pattern fluctuation, which might caused by weekday and weekend.<br></li>
+</ol>
+<p><img src="./data_eda/plots/submissions%20and%20comments%20count%20by%20day%20of%20week.png" id="top_20_subreddits" class="img-fluid"> From the left figure:</p>
+<ol type="1">
+<li>we could observe that posts of both submissions and comments type are made most often during weekdays and less often on weekends, which seems reasonable since people might enjoy their casual time during the weekends and have no need to browse the forums on their phone which only utilizes scattered pieces of time.<br></li>
+</ol>
+<p>From the right figure:</p>
+<ol type="1">
+<li>we could also observe that for submission posts, teenager authors make way more posts than adult authors, while their posting behavior seems to define the pattern illustrated by the left figure, making the most posts on weekdays.</li>
+</ol>
+</section>
+<section id="explore-wallstreetbets-subredit-count-and-stock-market-index" class="level2">
+<h2 class="anchored" data-anchor-id="explore-wallstreetbets-subredit-count-and-stock-market-index">Explore wallstreetbets subredit count and stock market index</h2>
+<p><img src="./data_eda/plots/wallstreetbets%20subredit%20and%20stock%20market%20Index.png" id="top_20_subreddits" class="img-fluid"> From the figure, we could observe the change in the stock index and the number of comments and submissions:</p>
+<ol type="1">
+<li>There is no significant relationship between stock index and the number of comment and submission.<br></li>
+<li>We will use sentiment analysis techniques in a follow-up study to examine the relationship between the content of comments and submissions and stock price data.</li>
+</ol>
+</section>
+<section id="explore-the-change-of-buzzwords-about-covid-19-from-2021-to-2022" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-change-of-buzzwords-about-covid-19-from-2021-to-2022">Explore the change of buzzwords about covid-19 from 2021 to 2022</h2>
+<p>We use regex searches for specific keywords about covid and produce dummy variables for this plot. <img src="./data_eda/plots/buzzwords.png" id="top_20_subreddits" class="img-fluid"> This is a rather raw wordcloud about covid-related posts, since the main words “gt” and “viewed” are repeated without an explicit connection to the covid topic.<br> However, the fact that the wordclouds look similar still provides some potential assumptions about the attitudes of Reddit users against covid. What if they have been bored enough to change their attitudes? <br> Further explorations could be performed by NLP to further compare the sentiment difference between 2021 and 2022.</p>
+</section>
+<section id="explore-the-10-most-controversial-subreddits-having-more-than-10000-comments" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-10-most-controversial-subreddits-having-more-than-10000-comments">Explore the 10 most controversial subreddits having more than 10000 comments</h2>
+<p><img src="./data_eda/plots/controversiality.png" id="top_20_subreddits" class="img-fluid"> From this figure, we could see that:</p>
+<ol type="1">
+<li>Popular culture (stonedswifties, media_criticism, MakingaMurderer, blndsundoll4mj), regional forum(WI_Neutral, Syracuse_comments, Ethiopia, OntatioCanada) and Politics&amp;War(syriancivilwar, moderatepolitics) are the most controversial topics.<br></li>
+<li>WI_Neutral serves as the most controversial big subreddit with 10000+ comments, with 28% of its comments tagged as controversial, which is possibly due to the elections happening.</li>
+</ol>
+</section>
+<section id="explore-the-relationship-between-subreddit-size-and-average-user-activities" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-relationship-between-subreddit-size-and-average-user-activities">Explore the relationship between subreddit size and average user activities</h2>
+<p><img src="./data_eda/plots/average_activity.png" id="top_20_subreddits" class="img-fluid"> This figure displays the relative size of subreddits along with their average user activity defined by the average number of submission posts made by each of distinct authors in the subreddit.<br> We could see a clear exponential shape of the figure, illustrating that users tend to be more active when situated in a larger web community, which seems reasonable since people usually want to grant sense of self-existence by receiving comments from others, which is definitely more easily when they express themselves in a larger community.</p>
+</section>
+<section id="explore-the-top-10-video-posting-subreddits-for-teenagers-and-adults" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-top-10-video-posting-subreddits-for-teenagers-and-adults">Explore the top 10 video-posting subreddits for teenagers and adults</h2>
+<table class="table">
+<caption>top 10 video posting subreddits</caption>
+<colgroup>
+<col style="width: 10%">
+<col style="width: 40%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Rank</th>
+<th>teen</th>
+<th>adult</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>ksi</td>
+<td>KGBTR</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>shitposting</td>
+<td>boypussy</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>apexlegends</td>
+<td>tiktokthots</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>aww</td>
+<td>FreeKarma4U</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>Unexpected</td>
+<td>assaddicts1</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>funny</td>
+<td>ebonyhomemade</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>nextfuckinglevel</td>
+<td>shitposting</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>196</td>
+<td>Unexpected</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>cats</td>
+<td>lean</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>tiktokthots</td>
+<td>The_ASSylum</td>
+</tr>
+</tbody>
+</table>
+<p>This table displays the top 10 subreddits where teenagers and adults post their videos.<br> From this summary table, we could observe that while adult posters tend to use video for NSFW contents, teenagers usually use video posts for spreading memes, enjoying popular culture and sharing experiences.<br> Besides, this table further supports one of our previous plots that suggests a difference in taste for teenagers and adults in Reddit.<br></p>
+<table class="table">
+<caption>stickied VS gilded</caption>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>stickied</th>
+<th>gilded</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>28514</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>This table shows that whether there is any relationship between sticked comment and gilded comment in AutoNewspaper subreddit. <br> In the table, nealy all of the comments are unsticked and ungilded, so these two features might not be an useful direction to explore in the further step. This might provide some reference for our business about advertising action in AutoNewspaper subreddit.<br></p>
+<p><a href="./eda.html">More detail with the how we visualize please check here.</a></p>
+<p><a href="./index.html">Go back to main page.</a></p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

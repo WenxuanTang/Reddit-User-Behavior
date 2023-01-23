@@ -1,0 +1,7 @@
+,feature_name,year,min,Q1,Q25,median,mean,Q75,Q99,max,percentage
+0,comment words number,2022,0.0,1.0,5.0,10.0,19.26,21.0,80.0,83.0,
+1,comment words number,2021,0.0,1.0,5.0,9.0,18.62,18.0,80.0,83.0,
+0,comment score,2022,20.0,20.0,24.0,31.0,37.01,46.0,80.0,83.0,
+1,comment score,2021,20.0,20.0,23.0,30.0,34.68,41.0,80.0,83.0,
+0,controversiality,2022,,,,,,,,,0.0033092456270682785
+1,controversiality,2021,,,,,,,,,0.001156586634248472

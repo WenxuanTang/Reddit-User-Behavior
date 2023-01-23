@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wenxuan(Ivy) Tang">
+
+<title>A Data Analysis of Reddit User Behavior</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#milestone-pages" id="toc-milestone-pages" class="nav-link active" data-scroll-target="#milestone-pages">Milestone Pages</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
+  <ul class="collapse">
+  <li><a href="#avenue-1" id="toc-avenue-1" class="nav-link" data-scroll-target="#avenue-1">Avenue 1</a></li>
+  <li><a href="#avenue-2" id="toc-avenue-2" class="nav-link" data-scroll-target="#avenue-2">Avenue 2</a></li>
+  <li><a href="#avenue-3" id="toc-avenue-3" class="nav-link" data-scroll-target="#avenue-3">Avenue 3</a></li>
+  <li><a href="#avenue-4" id="toc-avenue-4" class="nav-link" data-scroll-target="#avenue-4">Avenue 4</a></li>
+  <li><a href="#avenue-5" id="toc-avenue-5" class="nav-link" data-scroll-target="#avenue-5">Avenue 5</a></li>
+  <li><a href="#avenue-6" id="toc-avenue-6" class="nav-link" data-scroll-target="#avenue-6">Avenue 6</a></li>
+  <li><a href="#avenue-7" id="toc-avenue-7" class="nav-link" data-scroll-target="#avenue-7">Avenue 7</a></li>
+  <li><a href="#avenue-8" id="toc-avenue-8" class="nav-link" data-scroll-target="#avenue-8">Avenue 8</a></li>
+  <li><a href="#avenue-9" id="toc-avenue-9" class="nav-link" data-scroll-target="#avenue-9">Avenue 9</a></li>
+  <li><a href="#avenue-10" id="toc-avenue-10" class="nav-link" data-scroll-target="#avenue-10">Avenue 10</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">A Data Analysis of Reddit User Behavior</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wenxuan(Ivy) Tang </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="milestone-pages" class="level1">
+<h1>Milestone Pages</h1>
+<ul>
+<li><a href="./eda_1.html"> Exploratory Data Analysis </a><br></li>
+<li><a href="./nlp.html"> Natural Language Processing </a><br></li>
+<li><a href="./ml.html"> Machine Learning </a><br></li>
+<li><a href="./conclusion.html"> Conclusion </a></li>
+</ul>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Since the invention of the internet, the interpersonal exchange of information has been unprecedently convenient, for which Reddit is definitely a typical representation, as one of the biggest and most popular online forums on the internet. By simply clicking into a SubReddit of it, you could observe people posting their opinions and giving comments, thumbing up or down, adding SubReddit-specific tags on their posts, and even offering a generous gild to words helpful for them…</p>
+<p>However, we are never satisfied by such a glimpse on the surface of Reddit, as there are many interesting avenues for exploration. For example, in the question-answering channel of “AskReddit”, you could see some of the posts are gilded by others, but what kind of posts are more likely to receive such honor? In the “WallStreetBets” channel, you could see individual investors sharing their investment experiences, but could this somehow be reflective of the recent status of the stock market? There are SubReddits with various sizes and popularities but do those bigger SubReddits have the most active users to support their popularities, or could there be other factors? For these statistics-related wonders, usually we would expect the answers coming from a simple summary table, or an intuitive chart based on such summary data:</p>
+<table class="table">
+<caption>Top 20 SubReddit count by comment</caption>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 19%">
+<col style="width: 13%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Rank</th>
+<th>SubReddit</th>
+<th>Count</th>
+<th>Rank</th>
+<th>SubReddit</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>AskReddit</td>
+<td>126250841</td>
+<td>11</td>
+<td>nba</td>
+<td>21170038</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>wallstreetbets</td>
+<td>40309654</td>
+<td>12</td>
+<td>soccer</td>
+<td>19464190</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>teenagers</td>
+<td>39535149</td>
+<td>13</td>
+<td>PublicFreakout</td>
+<td>18453727</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>FreeKarma4U</td>
+<td>37658849</td>
+<td>14</td>
+<td>news</td>
+<td>17208651</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>memes</td>
+<td>34011572</td>
+<td>15</td>
+<td>nfl</td>
+<td>16967206</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>AmItheAsshole</td>
+<td>33527613</td>
+<td>16</td>
+<td>relationship_advice</td>
+<td>16015445</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>politics</td>
+<td>26218272</td>
+<td>17</td>
+<td>TrueFMK</td>
+<td>15263331</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>CryptoCurrency</td>
+<td>24477714</td>
+<td>18</td>
+<td>interestingasfuck</td>
+<td>13448766</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>worldnews</td>
+<td>22074096</td>
+<td>19</td>
+<td>antiwork</td>
+<td>13199527</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Superstonk</td>
+<td>21919504</td>
+<td>20</td>
+<td>PoliticalCompassMemes</td>
+<td>13103200</td>
+</tr>
+</tbody>
+</table>
+<p><img src="./data_eda/plots/average_activity.png" class="img-fluid"></p>
+<p>Instead of collecting numbers of posts by clicking into SubReddits one by one, by looking into the upper table we would immediately be able to see the top 20 SubReddits with their number of comments. Also, from the bottom chart we could easily observe that larger SubReddits do actually contain users with higher average activity, a classical demonstration of the Matthew Effect. However, confronting the enormous size(over billions!) of Reddit posts, the computation of these seemingly easy-to-get statistics becomes incredibly troublesome, where traditional data processing packages(NumPy, Pandas) and platforms(standalone PCs) become not applicable to the field of Big Data. Thus, after being exposed to cloud computing technologies and related big data analysis toolkits(like Spark), our group decided to formulate a data science project to analyze the Reddit posts dataset based on these powerful tools, exploring statistics and phenomena unavailable for traditional tools and practicing big data processing &amp; analyzing skills.</p>
+<p>Our (potential) research topics are widely spread among the huge dataset of Reddit posts, from intra-SubReddit summary statistics to content analysis of specific SubReddit channels. Also, our research would be based on three aspects: Exploratory Data Analysis(EDA), Natural Language Processing(NLP), and Machine Learning(ML). We will apply EDA on the dataset along with our business questions to run an initial exploration and statistical summary of the whole dataset, obtain intermediate subsets of data for further analysis and concentrate on several of our business questions by applying Natural Language Processing and Machine Learning techniques on those specific subsets. In this way, we could answer the statistical wonders as well as obtain a precious experience in cloud computing and big data analysis.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/plots/flow-chart.PNG" class="img-fluid figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<p>Besides the exploration of our interesting aspects on the Reddit dataset, our project has two important practical meanings. First of all, our project could serve as an example of big data analysis based on Spark. In the real world, data analysis is required to observe and analyze phenomena that cannot be concluded by simply looking at the data, but traditional data analytic tools could become available when the size of the data becomes a problem. With the support of cloud computing platforms like AWS/Azure and big data analytic tools like Spark, even the enormous data from big online forums like Reddit could be explored and researched using methods demonstrated in this project.<br></p>
+<p>Secondly, our project illustrates practical procedures of data analysis. Starting from the raw data, we get to explore several business goals through the application of data analysis techniques, and for each exploration avenue, we will present the findings to the multi-leveled audience with a two-part writeup: the non-technical executive summary and the technical analysis report. While the common audience could obtain a practical understanding of our findings in the executive summary, people with professional knowledge of data science could focus on the technical procedures and conclusions we present in the part of the analysis report, able to reproduce our analysis with the provided source codes and external data. This data-to-audience pipeline could serve as a precious practice on the way to become a data science expert.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/plots/ds.JPG" class="img-fluid figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</section>
+<section id="appendix" class="level1">
+<h1>Appendix</h1>
+<p>In this section, we set our 10 research avenues we want to explore.</p>
+<section id="avenue-1" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-1">Avenue 1</h2>
+<p><strong>Business goal</strong>: As for answering questions, would a controversial post receive more attention and support? Explore the posts for the SubReddit called “AskReddit” to see if posts with controversiality are more likely to be gilded.<br> <strong>Technical proposal</strong>: Check the distribution of controversial posts in the SubReddit in comparison to other popular SubReddits; Use NLP to analyze the sentiment of posts in the SubReddit and compare the distribution with that of controversiality; finally, build a machine learning model to predict whether a post is gilded or not, thus exploring the critical factors(if any).<br></p>
+</section>
+<section id="avenue-2" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-2">Avenue 2</h2>
+<p><strong>Business goal</strong>: Determine if Reddit users tend to be less active in average when they are browsing a larger SubReddit, since sense of self-presence is closely related to activity and is potentially weaker in bigger forums due to presence of too many people.<br> <strong>Technical proposal</strong>: Group the posts by SubReddits to get the count of posts for each SubReddit and by author in each of the SubReddits to get the total number of active users in each SubReddit. Use ML techniques to formulate a model between total posts and average number of posts for each user, thus determining whether a bigger SubReddit would actually suppress an individual’s willingness to make a post.<br></p>
+</section>
+<section id="avenue-3" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-3">Avenue 3</h2>
+<p><strong>Business goal</strong>: Explore the pattern of most active users. Are they posting more controversial or negative content in order to grab attention from others?<br> <strong>Technical proposal</strong>: Group the posts by their authors to get the 1000 most active users in reddit, then check the distribution of controversiality compared to the overall level and to determine if they are producing more controversial content. Then, use NLP on their posts to determine if they are producing negative content to grab the eyes.<br></p>
+</section>
+<section id="avenue-4" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-4">Avenue 4</h2>
+<p><strong>Business goal</strong>: What kind of accounts does Reddit tend to be cancelled? Negative/controversial content could naturally lead to unhealthy atmosphere, so is it also a critical factor that contributes to the deletion of a reddit account?<br> <strong>Technical proposal</strong>: Filter the posts whose author name is “[deleted]” to get the posts whose author’s account has been deleted, then check the ratio of posts with controversiality to see if controversial posts are potentially contributing to the deletion of accounts. Next, use NLP to determine the overall sentiment of those posts to see if deleted accounts generally post more negative content. Finally, build a ML model to see if we could predict the posts to have a deleted user or not, without actually analyzing its content.<br></p>
+</section>
+<section id="avenue-5" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-5">Avenue 5</h2>
+<p><strong>Business goal</strong>: Could Reddit posts in financial fields reflect the actual market state? Explore the potential correlation between US stock price and Reddit mood in the SubReddit “WallStreetBets”, a business and financial topic.<br> <strong>Technical proposal</strong>: Figure out the timescale of the submission dataset, fetch the external data of US stock price trends in that period, and merge them into the dataframe. Then, use NLP to analyze the sentiment behind posts in that SubReddit and aggregate in an appropriate scale to fit with the time unit of stock prices. Finally, by building an ML model, the potential correlation between Reddit mood and the stock market could be revealed a bit, if any.<br></p>
+</section>
+<section id="avenue-6" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-6">Avenue 6</h2>
+<p><strong>Business goal</strong>: If the Reddit company decides to bring more attention to SubReddit “AutoNewspaper”, then explore which type of news is more welcomed by the Reddit user.<br> <strong>Technical proposal</strong>: The favorable of the news can be reflected by the number of likes and dislikes, also by the amount of gild received. In this project, the scores column in the submission dataset computes the difference between the number of likes and the number of dislikes. Thus, the News topic with a higher score and gild level is considered to be more attractive for users. So NLP could be used to categorize news into topics and to compare the scores for each News topic posted in the SubReddit “AutoNewspaper”. Then find which news topics have the highest scores in the dataset. Also, present the score with the news topics along with their average gild level.</p>
+</section>
+<section id="avenue-7" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-7">Avenue 7</h2>
+<p><strong>Business goal</strong>: If the Reddit company is considering holding an interactive event, then when and how should they host that event so the Reddit user participation rate could be at most?<br> <strong>Technical proposal</strong>: In this project, the time series data record the number of participants active on Reddit in both the week and day format. Then, aggregate the data into the 7 days in a week to see which day in a week would gather the most attention from the users. Also, use NLP to make a comparison between stickied and non-stickled posts regarding their average score and sentiment to see if the interactive event should be stickied or not to receive more likes from the users.<br></p>
+</section>
+<section id="avenue-8" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-8">Avenue 8</h2>
+<p><strong>Business goal</strong>: If the Reddit company decides to include more news in the SubReddit “AutoNewspaper”, then which news source should they be focused on based on the steadiness of making new posts, for various types of news?<br> <strong>Technical proposal</strong>: Use NLP to identify the news source and type for each News posted in the SubReddit “AutoNewspaper”. Then, count which news sources are mentioned the most in the dataset for each of the formulated types of news. Addtionally, the 3 most mentioned type of news for each of the news sources could be presented to help the Reddit company to decide for future cooperations.<br></p>
+</section>
+<section id="avenue-9" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-9">Avenue 9</h2>
+<p><strong>Business goal</strong>: Which of the 2 groups, adults and teenagers, consists of a more important part in the Reddit society?<br> <strong>Technical proposal</strong>: The age of post authors could be identified by the variable “over_18”, thus a groupby operation could be used to separate posts made by adults and by teenagers. Then, comparisons on various statistics, such as total number of posts, most popular topics, average score and gild level, etc. The techniques of Natural Language Processing could be further applied to see if teenagers in the era of covid have been expressing more struggles than the adults. Through out of these comparisons, a general understanding of teenagers’ role in the Reddit society could be revealed a bit.<br></p>
+</section>
+<section id="avenue-10" class="level2">
+<h2 class="anchored" data-anchor-id="avenue-10">Avenue 10</h2>
+<p><strong>Business goal</strong>: Video posts have been thriving as a new type of Reddit posts. What are their target users and how well do they perform in the aspect of score and awards?<br> <strong>Technical proposal</strong>: Filter out the video posts from the dataset by the variable “is_video” present in the submission dataset, then make comparisons between distributions of adult user ratio, score and gild level for video posts and regular posts. This could give us an idea on the target user of video posts and their overall performance comparing to other posts. Additionally, NLP may be used to reveal commentors’ tastes on the video and let us see the SubReddits where video posts are welcomed/hated the most.<br></p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
