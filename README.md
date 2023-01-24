@@ -43,7 +43,7 @@ Here's the [website](https://wenxuantang.github.io/Reddit-User-Behavior/) I buil
 ```
 ### Description
 
-* The `code/` directory is where I wrote all of your scripts. I had a combination of Pyspark and Python notebooks, and one sub-directory per major task area. 
-* The `data/` directory contains.
+* The `code/` directory is where I wrote all of scripts. I had a combination of Pyspark and Python notebooks, and one sub-directory per major task area. 
+* The `data/` directory contains the extern data. 
 * The `website/` directory where the final website will be built. 
 * The `docs/` is where I developed the website using preferred method (Quarto). It rendered in `website/`.
